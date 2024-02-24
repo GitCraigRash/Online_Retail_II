@@ -144,7 +144,12 @@ kndf = kndf.loc[kndf["totalspending"]>0].reset_index(drop=True)
 print("new minimum", kndf["totalspending"].min())
 
 # List top countries by spending.(TODO- test if first three lines does everything)
-country_totals = kndf.groupby("country")["totalspending"].sum().reset_index().sort_values(by="totalspending",ascending=False).reset_index(drop=True)
+country_totals = (kndf.groupby("country")
+                    ["totalspending"]
+                    .sum()
+                    .reset_index()
+                    .sort_values(by="totalspending",ascending=False)
+                    .reset_index(drop=True))
 pd.DataFrame(country_totals)
 display(country_totals)
 
