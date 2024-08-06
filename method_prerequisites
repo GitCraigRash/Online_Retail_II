@@ -1,0 +1,19 @@
+Method 1:
+  wrangle():
+  df['StockCode'] = OrdinalEncoder().fit_transform(df['StockCode'])
+  df['Country'] = OrdinalEncoder().fit_transform(df['Country'])
+  unique_countries = df["Country"].unique()
+
+  results = []
+  for i in unique_countries:
+    count_spend = df['TotalSpending'].loc[df['Country']==i]
+    results.append(sum(count_spend))
+
+    countries_by_spending = df.groupby("Country")["TotalSpending"].sum().reset_index()\
+             .sort_values(by="TotalSpending",ascending=False).reset_index(drop=True)
+    pd.DataFrame(countries_by_spending)
+    display(countries_by_spending)
+
+    Rankings=list(zip(results,unique_countries))
+    a=pd.DataFrame(Rankings,columns=["total_spending","countries"])
+    a.sort_values("total_spending",ascending=False).reset_index(drop=True)
