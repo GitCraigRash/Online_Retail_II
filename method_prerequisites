@@ -11,8 +11,6 @@ Method 1:
 
     countries_by_spending = df.groupby("Country")["TotalSpending"].sum().reset_index()\
              .sort_values(by="TotalSpending",ascending=False).reset_index(drop=True)
-    pd.DataFrame(countries_by_spending)
-    display(countries_by_spending)
 
     Rankings=list(zip(results,unique_countries))
     a=pd.DataFrame(Rankings,columns=["total_spending","countries"])
