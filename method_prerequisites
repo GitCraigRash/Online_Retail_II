@@ -9,9 +9,11 @@ Method 1:
     count_spend = df['TotalSpending'].loc[df['Country']==i]
     results.append(sum(count_spend))
 
-    countries_by_spending = df.groupby("Country")["TotalSpending"].sum().reset_index()\
-             .sort_values(by="TotalSpending",ascending=False).reset_index(drop=True)
+  countries_by_spending = df.groupby("Country")["TotalSpending"].sum().reset_index()\
+           .sort_values(by="TotalSpending",ascending=False).reset_index(drop=True)
+  combined_list=list(zip(unique_countries,results))
+  Rankings=pd.DataFrame(combined_list,columns=["Country","total_spending"])
 
-    Rankings=list(zip(results,unique_countries))
-    a=pd.DataFrame(Rankings,columns=["total_spending","countries"])
-    a.sort_values("total_spending",ascending=False).reset_index(drop=True)
+  Rankings=list(zip(results,unique_countries))
+  a=pd.DataFrame(Rankings,columns=["total_spending","countries"])
+  a.sort_values("total_spending",ascending=False).reset_index(drop=True)
