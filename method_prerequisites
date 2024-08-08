@@ -17,3 +17,7 @@ Method 1:
   Rankings=list(zip(results,unique_countries))
   a=pd.DataFrame(Rankings,columns=["total_spending","countries"])
   a.sort_values("total_spending",ascending=False).reset_index(drop=True)
+
+Method 2
+  Kndf=df.dropna(subset=["Customer ID"]).reset_index()
+  
