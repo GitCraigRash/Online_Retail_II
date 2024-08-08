@@ -20,4 +20,18 @@ Method 1:
 
 Method 2
   Kndf=df.dropna(subset=["Customer ID"]).reset_index()
-  
+
+  customer_spending=Kndf.groupby("Customer ID")["TotalSpending"].sum().reset_index().sort_values(by="TotalSpending",ascending=False)
+  customer_spending["index"]=np.arange(0,len(customer_spending))
+  customer_spending.set_index("index",inplace=True)
+
+  high_paying_customers=[]
+  start_sum=16648292.388
+  for r in range(len(customer_spending)):
+    if start_sum > 16648292.388*.10:
+      start_sum=start_sum-customer_spending["TotalSpending"][r]
+      #high_paying_customers.append(customer_spending["Customer ID"][r])
+      continue
+    high_paying_customers=customer_spending["Customer ID"][:r]
+    break
+  high_paying_customers
