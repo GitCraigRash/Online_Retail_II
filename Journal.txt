@@ -1,2 +1,4 @@
 2024.10.16
 When predicting how many orders of what will be sold in the coming months, should I generalize the goal? For instance, only ask it how much will sell instead of what country?
+Actually, I think a bigger probelm is what is supposed to be the output? Is it a large sheet with the potential orders for the month? A daily prediction? hourly?
+Lets go with daily.
