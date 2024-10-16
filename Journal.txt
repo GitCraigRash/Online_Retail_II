@@ -4,3 +4,50 @@ Actually, I think a bigger probelm is what is supposed to be the output? Is it a
 Lets go with daily.
 
 I am trying to make a chart that shows how orders fluctuate over time, but it's quite difficult because so many of the countries orders are being shown as zero.
+
+Produced a graph of total orders each week for top ten countries:
+
+# Resample the data by week (using 'W' for weekly frequency) and group by both the week and 'Country'
+# Then sum the 'Quantity' for each week and country
+grouped_df = df.groupby([pd.Grouper(freq='W'), 'Country'])['Quantity'].sum().reset_index()
+
+# Calculate the total quantity for each country
+total_quantity_per_country = grouped_df.groupby('Country')['Quantity'].sum()
+
+# Sort the countries by total quantity and get the top 10
+top_10_countries = total_quantity_per_country.nlargest(10).index
+
+# Filter the grouped DataFrame to only include the top 10 countries
+filtered_df = grouped_df[grouped_df['Country'].isin(top_10_countries)]
+
+# Exclude the first week by skipping the first entry
+# Find the first week's date and filter out rows before that
+first_week = filtered_df['InvoiceDate'].min()
+filtered_df = filtered_df[filtered_df['InvoiceDate'] > first_week]
+
+# Pivot the data to have countries as separate columns, indexed by the week
+pivot_df = filtered_df.pivot(index='InvoiceDate', columns='Country', values='Quantity')
+
+# Fill missing weeks/countries with 0 if needed
+pivot_df = pivot_df.fillna(0)
+
+# Plotting with larger figure size
+plt.figure(figsize=(15, 8))  # Increase the figure size
+
+# Plotting the pivot DataFrame
+pivot_df.plot(kind='line', marker='o', ax=plt.gca())
+
+# Customize the plot
+plt.title('Total Quantity Ordered by Top 10 Countries Over Time')
+plt.xlabel('Date')
+plt.ylabel('Quantity Ordered')
+plt.grid(True)
+plt.legend(title='Country')
+
+# Adjust x-axis ticks and rotate labels
+plt.gca().xaxis.set_major_locator(plt.MaxNLocator(nbins=10))  # Reduce the number of x-axis ticks
+plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels
+
+# Show the plot
+plt.tight_layout()
+plt.show()
