@@ -1,1 +1,2 @@
-d
+2024.10.16
+When predicting how many orders of what will be sold in the coming months, should I generalize the goal? For instance, only ask it how much will sell instead of what country?
